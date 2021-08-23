@@ -1,8 +1,9 @@
 from django.shortcuts import render
-from django.views.generic import TemplateView ,CreateView ,ListView ,DetailView
+from django.views.generic import TemplateView ,CreateView ,ListView ,DetailView ,UpdateView
 from .forms import DiaryForm
 from django.urls import reverse_lazy
 from .models import Diary
+from django.utils import timezone
 
 class IndexView(TemplateView):
     template_name = 'index.html'
@@ -22,3 +23,15 @@ class DiaryListView(ListView):
 class DiaryDetailView(DetailView):
     template_name = 'diary_detail.html'
     model = Diary
+    
+class DiaryUpdateView(UpdateView):
+    template_name = 'diary_update.html'
+    model = Diary
+    fields = ('date', 'title', 'text',)
+    success_url = reverse_lazy('diary:diary_list')
+    
+    def form_valid(self, form):#オーバーライド
+        diary = form.save(commit=False)
+        diary.updated_at = timezone.now()
+        diary.save()
+        return super().form_valid(form)#親のform_validで更新確認
