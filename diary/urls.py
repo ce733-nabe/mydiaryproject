@@ -10,5 +10,6 @@ urlpatterns = [
     path('diary/list/', views.DiaryListView.as_view(), name='diary_list'), # 追記
     path('diary/detail/<uuid:pk>/', views.DiaryDetailView.as_view(), name='diary_detail'), # 追記
     path('diary/update/<uuid:pk>/', views.DiaryUpdateView.as_view(), name='diary_update'), #追記
+    path('diary/delete/<uuid:pk>/', views.DiaryDeleteView.as_view(), name='diary_delete'), #追加
 ]
 

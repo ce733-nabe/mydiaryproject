@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import TemplateView ,CreateView ,ListView ,DetailView ,UpdateView
+from django.views.generic import TemplateView ,CreateView ,ListView ,DetailView ,UpdateView, DeleteView
 from .forms import DiaryForm
 from django.urls import reverse_lazy
 from .models import Diary
@@ -35,3 +35,8 @@ class DiaryUpdateView(UpdateView):
         diary.updated_at = timezone.now()
         diary.save()
         return super().form_valid(form)#親のform_validで更新確認
+        
+class DiaryDeleteView(DeleteView):
+    template_name = 'diary_delete.html'
+    model = Diary
+    success_url = reverse_lazy('diary:diary_list')
